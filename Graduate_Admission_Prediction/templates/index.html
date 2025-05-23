@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>University Admission Predictor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Page background styling */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('https://images.unsplash.com/photo-1510936111840-65e151ad71bb?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Overlay for readability */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+           
+            z-index: 0;
+        }
+
+        /* Container styling */
+        .form-container {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            margin: 60px auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        input[type="number"],
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .radio-group label {
+            font-weight: normal;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            background-color: #007BFF;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .result-box {
+            background-color: #e6f0ff;
+            border-left: 6px solid #007BFF;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 6px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        @media (max-width: 640px) {
+            .form-container {
+                margin: 30px 15px;
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>University Admission Predictor</h1>
+        <form action="/predict" method="post">
+            <div class="form-group">
+                <label for="gre_score">GRE Score:</label>
+                <input type="number" id="gre_score" name="gre_score" min="0" max="340" required>
+            </div>
+
+            <div class="form-group">
+                <label for="toefl_score">TOEFL Score:</label>
+                <input type="number" id="toefl_score" name="toefl_score" min="0" max="120" required>
+            </div>
+
+            <div class="form-group">
+                <label for="university_rating">University Rating (1-5):</label>
+                <input type="number" id="university_rating" name="university_rating" min="1" max="5" required>
+            </div>
+
+            <div class="form-group">
+                <label for="sop">SOP Strength (1.0 - 5.0):</label>
+                <input type="number" step="0.1" id="sop" name="sop" min="1" max="5" required>
+            </div>
+
+            <div class="form-group">
+                <label for="lor">LOR Strength (1.0 - 5.0):</label>
+                <input type="number" step="0.1" id="lor" name="lor" min="1" max="5" required>
+            </div>
+
+            <div class="form-group">
+                <label for="cgpa">CGPA (out of 10):</label>
+                <input type="number" step="0.01" id="cgpa" name="cgpa" min="0" max="10" required>
+            </div>
+
+            <div class="form-group">
+                <label>Research Experience:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="research" value="1" required> Yes</label>
+                    <label><input type="radio" name="research" value="0"> No</label>
+                </div>
+            </div>
+
+            <input type="submit" value="Predict Admission Chance">
+        </form>
+
+        {% if prediction_text %}
+        <div class="result-box">
+            <h2>{{ prediction_text }}</h2>
+            <p><strong>Your Input Details:</strong></p>
+            <ul>
+                <li>GRE Score: {{ gre_score }}</li>
+                <li>TOEFL Score: {{ toefl_score }}</li>
+                <li>University Rating: {{ university_rating }}</li>
+                <li>SOP: {{ sop }}</li>
+                <li>LOR: {{ lor }}</li>
+                <li>CGPA: {{ cgpa }}</li>
+                <li>Research Experience: {{ research }}</li>
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
